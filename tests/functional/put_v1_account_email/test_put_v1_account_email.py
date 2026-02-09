@@ -4,7 +4,7 @@ from api_mailhog.apis.mailhog_api import MailhogApi
 from tests.functional.post_v1_account_login.test_post_v1_account_login import get_activation_token_by_login
 
 
-def test_post_v1_account():
+def test_put_v1_account_email():
     # Регистрация пользователя
     account_api = AccountApi(host = 'http://185.185.143.231:5051')
     login_api = LoginApi(host = 'http://185.185.143.231:5051')
