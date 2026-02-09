@@ -1,4 +1,5 @@
 from dm_api_account.apis.account_api import AccountApi
+from restclient.configuration import Configuration as DmApiConfiguration
 import structlog
 
 structlog.configure(
@@ -13,8 +14,11 @@ structlog.configure(
 
 def test_post_v1_account():
     # Регистрация пользователя
-    account_api = AccountApi(host = 'http://185.185.143.231:5051')
-    login = 'katya_test61'
+    dm_api_configuration = DmApiConfiguration(host='http://185.185.143.231:5051', disable_log=False)
+
+    account_api = AccountApi(configuration=dm_api_configuration)
+
+    login = 'katya_test76'
     email = f'{login}@mail.ru'
     password = '123456'
 

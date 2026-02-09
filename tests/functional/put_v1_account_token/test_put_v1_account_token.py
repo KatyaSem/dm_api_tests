@@ -1,6 +1,8 @@
 from dm_api_account.apis.account_api import AccountApi
 from api_mailhog.apis.mailhog_api import MailhogApi
 from tests.functional.post_v1_account_login.test_post_v1_account_login import get_activation_token_by_login
+from restclient.configuration import Configuration as MailhogConfiguration
+from restclient.configuration import Configuration as DmApiConfiguration
 import structlog
 
 structlog.configure(
@@ -15,9 +17,13 @@ structlog.configure(
 
 def test_put_v1_account_token():
     # Регистрация пользователя
-    account_api = AccountApi(host = 'http://185.185.143.231:5051')
-    mailhog_api = MailhogApi(host = 'http://185.185.143.231:5025')
-    login = 'katya_test67'
+    mailhog_configuration = MailhogConfiguration(host='http://185.185.143.231:5025')
+    dm_api_configuration = DmApiConfiguration(host='http://185.185.143.231:5051', disable_log=False)
+
+    account_api = AccountApi(configuration=dm_api_configuration)
+    mailhog_api = MailhogApi(configuration=mailhog_configuration)
+
+    login = 'katya_test79'
     email = f'{login}@mail.ru'
     password = '123456'
 
