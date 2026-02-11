@@ -1,6 +1,8 @@
-from dm_api_account.apis.account_api import AccountApi
+
 from restclient.configuration import Configuration as DmApiConfiguration
 import structlog
+
+from services.dm_api_account import DMApiAccount
 
 structlog.configure(
     processors=[
@@ -16,9 +18,9 @@ def test_post_v1_account():
     # Регистрация пользователя
     dm_api_configuration = DmApiConfiguration(host='http://185.185.143.231:5051', disable_log=False)
 
-    account_api = AccountApi(configuration=dm_api_configuration)
+    account = DMApiAccount(configuration=dm_api_configuration)
 
-    login = 'katya_test76'
+    login = 'katya_test96'
     email = f'{login}@mail.ru'
     password = '123456'
 
@@ -28,7 +30,7 @@ def test_post_v1_account():
         'password': password,
     }
 
-    response = account_api.post_v1_account(json_data = json_data)
+    response = account.account_api.post_v1_account(json_data = json_data)
     assert response.status_code == 201, f"Пользователь не был создан{response.json()}"
 
 
