@@ -1,8 +1,9 @@
-
+from helpers.account_helper import AccountHelper
+from services.api_mailhog import MailHogApi
+from services.dm_api_account import DMApiAccount
+from restclient.configuration import Configuration as MailhogConfiguration
 from restclient.configuration import Configuration as DmApiConfiguration
 import structlog
-
-from services.dm_api_account import DMApiAccount
 
 structlog.configure(
     processors=[
@@ -16,11 +17,14 @@ structlog.configure(
 
 def test_post_v1_account():
     # Регистрация пользователя
+    mailhog_configuration = MailhogConfiguration(host='http://185.185.143.231:5025')
     dm_api_configuration = DmApiConfiguration(host='http://185.185.143.231:5051', disable_log=False)
 
     account = DMApiAccount(configuration=dm_api_configuration)
+    mailhog = MailHogApi(configuration=mailhog_configuration)
 
-    login = 'katya_test96'
+    account_helper = AccountHelper(dm_account_api=account, mailhog=mailhog)
+    login = 'katya_test130'
     email = f'{login}@mail.ru'
     password = '123456'
 
@@ -30,8 +34,8 @@ def test_post_v1_account():
         'password': password,
     }
 
-    response = account.account_api.post_v1_account(json_data = json_data)
-    assert response.status_code == 201, f"Пользователь не был создан{response.json()}"
+    account_helper.register_new_user(login=login, password=password, email=email)
+
 
 
 
