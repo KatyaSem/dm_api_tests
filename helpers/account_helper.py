@@ -1,9 +1,16 @@
 import time
-from http.client import responses
 from json import loads
 
 from services.dm_api_account import DMApiAccount
 from services.api_mailhog import MailHogApi
+from retrying import retry
+
+
+def retry_if_result_none(
+        result
+        ):
+    """Return True if we should retry (in this case when result is None), False otherwise"""
+    return result is None
 
 
 def retrier(
@@ -70,7 +77,7 @@ class AccountHelper:
         return response
 
 
-    @retrier
+    @retry (stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
     def get_activation_token_by_login(
             self,
             login
@@ -97,9 +104,7 @@ class AccountHelper:
         }
         response = self.dm_account_api.account_api.put_v1_account_email(json_data=json_data)
         assert response.status_code == 200, "Почта не поменялась"
-        response = self.mailhog.mailhog_api.get_api_v2_messages()
-        assert response.status_code == 200, "Письма не были получены"
-        token = self.get_activation_token_by_login(login, response)
+        token = self.get_activation_token_by_login(login)
         assert token is not None, f"Токен для пользователя{login} не был получен"
         response = self.dm_account_api.account_api.put_v1_account_token(token=token)
         assert response.status_code == 200, "Пользователь не был активирован"

@@ -25,7 +25,7 @@ def test_put_v1_account_email():
 
     account_helper = AccountHelper(dm_account_api=account, mailhog=mailhog)
 
-    login = 'katya_test148'
+    login = 'katya_test167'
     email = f'{login}@mail.ru'
     new_email = f'{login}_new@mail.ru'
     password = '123456'
