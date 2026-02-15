@@ -1,3 +1,4 @@
+import json
 import time
 from json import loads
 from services.dm_api_account import DMApiAccount
@@ -108,8 +109,12 @@ class AccountHelper:
         token = None
         response = self.mailhog.mailhog_api.get_api_v2_messages()
         for item in response.json()["items"]:
-            user_data = loads(item["Content"]["Body"])
-            user_login = user_data["Login"]
+            try:
+                user_data = json.loads(item["Content"]["Body"])
+            except (json.JSONDecodeError, KeyError):
+                continue
+
+            user_login = user_data.get("Login")
             activation_token = user_data.get("ConfirmationLinkUrl")
             reset_token = user_data.get("ConfirmationLinkUri")
             if user_login == login and activation_token and token_type == "activation":
@@ -132,9 +137,9 @@ class AccountHelper:
         }
         response = self.dm_account_api.account_api.put_v1_account_email(json_data=json_data)
         assert response.status_code == 200, "Почта не поменялась"
-        token = self.get_token(login)
-        assert token is not None, f"Токен для пользователя{login} не был получен"
-        response = self.dm_account_api.account_api.put_v1_account_token(token=token)
+        new_token = self.get_token(login)
+        assert new_token is not None, f"Новый токен для пользователя{login} не был получен"
+        response = self.dm_account_api.account_api.put_v1_account_token(token=new_token)
         assert response.status_code == 200, "Пользователь не был активирован"
         return response
 
@@ -165,5 +170,7 @@ class AccountHelper:
             }
         )
         return response
+
+
 
 

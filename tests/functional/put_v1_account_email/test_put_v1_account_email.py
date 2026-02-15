@@ -1,3 +1,5 @@
+from conftest import auth_account_helper
+
 
 def test_put_v1_account_email(prepare_user, account_helper):
     login = prepare_user.login
@@ -12,6 +14,7 @@ def test_put_v1_account_email(prepare_user, account_helper):
     account_helper.change_email(login=login, password=password, email=new_email)
     # Авторизация пользователя
     account_helper.user_login(login=login, password=password)
+
 
 
 
