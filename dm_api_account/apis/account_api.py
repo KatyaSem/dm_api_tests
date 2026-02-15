@@ -1,6 +1,7 @@
 import requests
 from restclient.client import RestClient
 
+
 class AccountApi(RestClient):
 
     def post_v1_account(
@@ -62,6 +63,32 @@ class AccountApi(RestClient):
         """
         response = self.get(
             path=f'/v1/account',
+            **kwargs
+        )
+        return response
+
+    def put_v1_account_password(
+            self,
+            **kwargs,
+            ):
+        """
+        Change registered user password
+        """
+        response = self.put(
+            path=f'/v1/account/password',
+            **kwargs
+        )
+        return response
+
+    def post_v1_account_password(
+            self,
+            **kwargs,
+            ):
+        """
+        Reset registered user password
+        """
+        response = self.post(
+            path=f'/v1/account/password',
             **kwargs
         )
         return response
