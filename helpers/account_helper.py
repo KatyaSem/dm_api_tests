@@ -1,6 +1,8 @@
 import json
 import time
 from json import loads
+from turtledemo.penrose import start
+
 from services.dm_api_account import DMApiAccount
 from services.api_mailhog import MailHogApi
 from retrying import retry
@@ -48,15 +50,10 @@ class AccountHelper:
             login: str,
             password: str
     ):
-        response =  self.dm_account_api.login_api.post_v1_account_login(
-            json_data={
-                'login': login,
-                'password': password
-            }
-            )
+        response =  self.user_login(login=login, password=password)
         token = {"x-dm-auth-token": response.headers["x-dm-auth-token"]}
         self.dm_account_api.account_api.set_headers(token)
-        self.dm_account_api.login_api.set_headers((token))
+        self.dm_account_api.login_api.set_headers(token)
 
     def register_new_user(self,
                           login:str,
@@ -70,7 +67,10 @@ class AccountHelper:
 
         response = self.dm_account_api.account_api.post_v1_account(json_data=json_data)
         assert response.status_code == 201, f"Пользователь не был создан{response.json()}"
+        start_time = time.time()
         token = self.get_token(login=login)
+        end_time = time.time()
+        assert end_time - start_time < 3, "Время ожидания активации превышено"
         assert token is not None, f"Токен для пользователя{login} не был получен"
         response = self.dm_account_api.account_api.put_v1_account_token(token=token)
         assert response.status_code == 200, "Пользователь не был активирован"
@@ -88,6 +88,7 @@ class AccountHelper:
         }
 
         response = self.dm_account_api.login_api.post_v1_account_login(json_data=json_data)
+        assert response.headers["x-dm-auth-token"],"Токен для пользователя не был получен"
         assert response.status_code == 200, "Пользователь не смог авторизоваться"
         return response
 
@@ -169,6 +170,18 @@ class AccountHelper:
                 "token": token
             }
         )
+        return response
+
+    def logout(self):
+        response = self.dm_account_api.login_api.delete_v1_account_login()
+        return response
+
+    def logout_all(self):
+        response = self.dm_account_api.login_api.delete_v1_account_login()
+        return response
+
+    def get_user(self):
+        response = self.dm_account_api.account_api.get_v1_account()
         return response
 
 
