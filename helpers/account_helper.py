@@ -142,7 +142,7 @@ class AccountHelper:
         change_email=ChangeEmail(
             login=login,
             password=password,
-            email=f'new_{email}'
+            email=email
         )
 
         response = self.dm_account_api.account_api.put_v1_account_email(
