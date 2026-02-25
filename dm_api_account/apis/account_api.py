@@ -47,7 +47,7 @@ class AccountApi(RestClient):
 
     def put_v1_account_email(
             self,
-            change_email=ChangeEmail,
+            change_email: ChangeEmail,
             validate_response=True
 
     ):
