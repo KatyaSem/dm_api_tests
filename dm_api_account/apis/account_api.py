@@ -99,7 +99,7 @@ class AccountApi(RestClient):
 
     def post_v1_account_password(
             self,
-            reset_password=ResetPassword,
+            reset_password: ResetPassword,
             validate_response=True
     ):
         """
