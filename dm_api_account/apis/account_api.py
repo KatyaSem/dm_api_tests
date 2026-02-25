@@ -83,7 +83,7 @@ class AccountApi(RestClient):
 
     def put_v1_account_password(
             self,
-            change_password=ChangePassword,
+            change_password: ChangePassword,
             validate_response=True
     ):
         """
