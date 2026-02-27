@@ -17,7 +17,8 @@ class GetV1Account:
     @classmethod
     def check_response_values(
             cls,
-            response
+            response,
+            login
     ):
         assert_that(
             response,
