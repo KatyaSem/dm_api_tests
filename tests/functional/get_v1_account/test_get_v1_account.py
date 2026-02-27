@@ -12,7 +12,7 @@ def test_get_v1_account_auth(auth_account_helper):
         assert_that(response.resource.online).is_instance_of(datetime)
         assert_that(response.resource.roles).contains(UserRole.GUEST, UserRole.PLAYER)
 
-    GetV1Account.check_response_values(response)
+    GetV1Account.check_response_values(response=response, login="katya_test")
 
 def test_get_v1_account_no_auth(account_helper):
     with check_status_code_http(401, "User must be authenticated"):
