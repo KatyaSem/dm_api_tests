@@ -16,7 +16,7 @@ class PostV1AccountLogin:
     @classmethod
     def check_response_values(
             cls,
-            login
+            login,
             response
     ):
         today = datetime.now().strftime('%Y-%m-%d')
