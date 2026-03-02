@@ -1,4 +1,8 @@
+import allure
 
+
+@allure.suite("Тесты на проверку метода PUT v1/account/email")
+@allure.title("Изменение почты у пользователя")
 def test_put_v1_account_email(prepare_user, account_helper):
     login = prepare_user.login
     password = prepare_user.password

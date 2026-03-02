@@ -1,3 +1,8 @@
+import allure
+
+
+@allure.suite("Тесты на проверку метода POST v1/account/password")
+@allure.title("Изменение пароля")
 def test_post_v1_account_password(account_helper, prepare_user):
     login = prepare_user.login
     password = prepare_user.password

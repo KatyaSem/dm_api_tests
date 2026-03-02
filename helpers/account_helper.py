@@ -1,6 +1,8 @@
 import json
 import time
 
+import allure
+
 from dm_api_account.models.change_email import ChangeEmail
 from dm_api_account.models.change_password import ChangePassword
 from dm_api_account.models.login_credentials import LoginCredentials
@@ -58,6 +60,7 @@ class AccountHelper:
         self.dm_account_api.account_api.set_headers(token)
         self.dm_account_api.login_api.set_headers(token)
 
+    @allure.step("Регистрация нового пользователя")
     def register_new_user(self,
                           login:str,
                           password:str,
@@ -78,6 +81,8 @@ class AccountHelper:
         response = self.dm_account_api.account_api.put_v1_account_token(token=token)
         return response
 
+
+    @allure.step("Аутентификация пользователя")
     def user_login(self,
                    login:str,
                    password:str,
@@ -99,7 +104,7 @@ class AccountHelper:
             assert response.headers["x-dm-auth-token"],"Токен для пользователя не был получен"
         return response
 
-
+    @allure.step("Получение токена")
     @retry (stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
     def get_token(
             self,
@@ -132,6 +137,7 @@ class AccountHelper:
 
         return token
 
+    @allure.step("Изменение почты пользователя")
     def change_email(self,
                      login:str,
                      password:str,
@@ -154,6 +160,7 @@ class AccountHelper:
         response = self.dm_account_api.account_api.put_v1_account_token(token=new_token)
         return response
 
+    @allure.step("Изменение пароля")
     def change_password(
             self,
             login: str,
@@ -182,14 +189,17 @@ class AccountHelper:
             )
         return response
 
+    @allure.step("Выход из аккаунта")
     def logout(self):
         response = self.dm_account_api.login_api.delete_v1_account_login()
         return response
 
+    @allure.step("Выход из аккаунта со всех устройств")
     def logout_all(self):
         response = self.dm_account_api.login_api.delete_v1_account_login()
         return response
 
+    @allure.step("Получение информации о пользователе")
     def get_user(
             self,
             validate_response=True):

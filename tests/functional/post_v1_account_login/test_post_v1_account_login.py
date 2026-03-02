@@ -1,7 +1,10 @@
+import allure
 
 from checkers.post_v1_account_login import PostV1AccountLogin
 
 
+@allure.suite("Тесты на проверку метода POST v1/account/login")
+@allure.title("Регистрация и авторизация пользователя")
 def test_post_v1_account_login(prepare_user, account_helper):
     login = prepare_user.login
     password = prepare_user.password
