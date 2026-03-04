@@ -8,8 +8,11 @@ charset-normalizer==3.4.4
 colorama==0.4.6
 curlify==3.0.0
 distconfig3==1.0.1
+environs==14.6.0
+Faker==40.5.1
 idna==3.11
 iniconfig==2.3.0
+marshmallow==4.2.2
 packaging==26.0
 pluggy==1.6.0
 pydantic==2.12.5
@@ -17,13 +20,20 @@ pydantic_core==2.41.5
 Pygments==2.19.2
 PyHamcrest==2.1.0
 pytest==9.0.2
+python-dotenv==1.2.2
 PyYAML==6.0.3
 requests==2.32.5
 retrying==1.4.2
+rootpath==0.1.0
+setuptools==82.0.0
+six==1.17.0
 structlog==25.5.0
+swagger-coverage==3.5.1
 toml==0.10.2
 typing-inspection==0.4.2
 typing_extensions==4.15.0
+tzdata==2025.3
 urllib3==2.6.3
 vyper-config==1.2.1
 watchdog==6.0.0
+swagger-coverage @ https://github.com/KatyaSem/swagger-coverage-py/archive/refs/heads/master.zip
