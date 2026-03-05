@@ -1,7 +1,7 @@
 from collections import namedtuple
 from datetime import datetime
+
 import pytest
-from requests.auth import HTTPBasicAuth
 from swagger_coverage_py.reporter import CoverageReporter
 
 from helpers.account_helper import AccountHelper
