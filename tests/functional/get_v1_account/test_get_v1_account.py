@@ -3,7 +3,7 @@ from assertpy import assert_that, soft_assertions
 from checkers.get_v1_account import GetV1Account
 from checkers.http_checkers import check_status_code_http
 from datetime import datetime
-from dm_api_account.models.user_details_envelope import UserRole
+from clients.http.dm_api_account.models.user_details_envelope import UserRole
 
 
 @allure.suite("Тесты на проверку метода GET v1/account")
