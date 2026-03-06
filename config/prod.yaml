@@ -5,3 +5,7 @@ service:
 user:
   login: "katya_test"
   password: "123456"
+
+telegram:
+  chat_id: "5627447781"
+  token: "8530950951:AAGunfn6x-3uf-WqX_5gcciYqCORHG81KgM"
